@@ -1,3 +1,5 @@
+import { useViewportScroll } from "framer-motion";
+import { useEffect } from "react";
 import styled from "styled-components";
 
 const Container = styled.div`
@@ -34,9 +36,43 @@ const BigTitle = styled.h1`
   font-weight: 700;
   font-size: 350px;
   letter-spacing: 10px;
+  color: #3f72af;
 `;
-const BottomTitle = styled.div``;
+const BottomTitle = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-bottom: 150px;
+  span:first-child {
+    font-size: 15px;
+    color: #b21a59;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 800;
+  }
+  span:nth-child(2) {
+    color: #010001;
+    margin: 20px 0 40px 0;
+    font-size: 50px;
+    font-weight: 700;
+  }
+  span:last-child {
+    width: 600px;
+    color: #949394;
+    text-align: center;
+    font-weight: 500;
+    line-height: 1.4;
+  }
+`;
 function Home() {
+  const { scrollY } = useViewportScroll();
+  //y 500
+  useEffect(() => {
+    scrollY.onChange(() => {
+      console.log(scrollY.get());
+    });
+  }, [scrollY]);
   return (
     <>
       <Container>

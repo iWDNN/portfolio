@@ -1,4 +1,5 @@
 import { createGlobalStyle } from "styled-components";
+import Footer from "./Components/Footer";
 import Router from "./Router";
 
 const GlobalStyle = createGlobalStyle`
@@ -60,6 +61,7 @@ function App() {
     <>
       <GlobalStyle />
       <Router />
+      <Footer />
     </>
   );
 }
