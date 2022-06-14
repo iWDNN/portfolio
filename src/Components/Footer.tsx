@@ -20,10 +20,12 @@ const Items = styled.ul``;
 const Item = styled.li`
   margin: 10px;
   font-size: 14px;
+  color: #272527;
   &:first-child {
     font-weight: 500;
     font-size: 15px;
     margin-bottom: 20px;
+    color: #d6d5d7;
   }
 `;
 function Footer() {

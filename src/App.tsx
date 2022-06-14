@@ -1,4 +1,11 @@
-import { createGlobalStyle } from "styled-components";
+import {
+  motion,
+  useAnimation,
+  useViewportScroll,
+  Variants,
+} from "framer-motion";
+import { useEffect } from "react";
+import styled, { createGlobalStyle } from "styled-components";
 import Footer from "./Components/Footer";
 import Router from "./Router";
 
@@ -56,12 +63,42 @@ a{
 }
 `;
 
+const Background = styled(motion.div)`
+  background-color: transparent;
+`;
+
+const bodyAni: Variants = {
+  top: {
+    backgroundColor: "rgba(0,0,0,1)",
+  },
+  scroll: {
+    backgroundColor: "rgba(0,0,0,0)",
+  },
+};
+
 function App() {
+  const { scrollY } = useViewportScroll();
+  const background = useAnimation();
+  useEffect(() => {
+    scrollY.onChange(() => {
+      if (scrollY.get() >= 200) {
+        background.start("top");
+      } else {
+        background.start("scroll");
+      }
+    });
+  }, [scrollY]);
   return (
     <>
-      <GlobalStyle />
-      <Router />
-      <Footer />
+      <Background
+        variants={bodyAni}
+        animate={background}
+        transition={{ type: "tween", duration: 1.2 }}
+      >
+        <GlobalStyle />
+        <Router />
+        <Footer />
+      </Background>
     </>
   );
 }

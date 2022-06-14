@@ -1,4 +1,9 @@
-import { useViewportScroll } from "framer-motion";
+import {
+  motion,
+  useAnimation,
+  useViewportScroll,
+  Variants,
+} from "framer-motion";
 import { useEffect } from "react";
 import styled from "styled-components";
 
@@ -8,7 +13,7 @@ const Container = styled.div`
   height: 81.5vh;
   position: relative;
 `;
-const TopTitle = styled.h3`
+const TopTitle = styled(motion.h3)`
   margin: 60px 0;
   display: flex;
   flex-direction: column;
@@ -27,7 +32,7 @@ const TopTitle = styled.h3`
     font-weight: 700;
   }
 `;
-const BigTitle = styled.h1`
+const BigTitle = styled(motion.h1)`
   position: absolute;
   bottom: 145px;
   left: 0;
@@ -38,7 +43,7 @@ const BigTitle = styled.h1`
   letter-spacing: 10px;
   color: #3f72af;
 `;
-const BottomTitle = styled.div`
+const BottomTitle = styled(motion.div)`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -52,7 +57,7 @@ const BottomTitle = styled.div`
     font-weight: 800;
   }
   span:nth-child(2) {
-    color: #010001;
+    color: #fff;
     margin: 20px 0 40px 0;
     font-size: 50px;
     font-weight: 700;
@@ -65,26 +70,83 @@ const BottomTitle = styled.div`
     line-height: 1.4;
   }
 `;
+
+const topAni: Variants = {
+  top: {
+    opacity: 1,
+    y: 0,
+  },
+  scroll: {
+    opacity: 0,
+    y: 10,
+    transition: {
+      type: "tween",
+    },
+  },
+};
+const bigAni: Variants = {
+  top: {
+    color: "#3f72af",
+  },
+  scroll: {
+    color: "#1E1D1C",
+    transition: {
+      type: "linear",
+    },
+  },
+};
+const botAni: Variants = {
+  top: {
+    opacity: 0,
+    y: 20,
+  },
+  scroll: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      type: "tween",
+    },
+  },
+};
+
 function Home() {
   const { scrollY } = useViewportScroll();
-  //y 500
+  const topTitleAni = useAnimation();
+  const bigTitleAni = useAnimation();
+  const botTitleAni = useAnimation();
   useEffect(() => {
     scrollY.onChange(() => {
       console.log(scrollY.get());
+      if (scrollY.get() >= 200) {
+        topTitleAni.start("scroll");
+        bigTitleAni.start("scroll");
+        botTitleAni.start("scroll");
+      } else {
+        topTitleAni.start("top");
+        bigTitleAni.start("top");
+        botTitleAni.start("top");
+      }
     });
   }, [scrollY]);
   return (
     <>
       <Container>
-        <TopTitle>
+        <TopTitle variants={topAni} animate={topTitleAni}>
           <span>Coming soon</span>
           <span>New Year's Revolution.</span>
         </TopTitle>
-        <BigTitle>Pocket</BigTitle>
+
+        <BigTitle
+          variants={bigAni}
+          animate={bigTitleAni}
+          transition={{ type: "spring", duration: 1.5 }}
+        >
+          Pocket
+        </BigTitle>
       </Container>
-      <BottomTitle>
+      <BottomTitle variants={botAni} animate={botTitleAni}>
         <span>NEW PROJECT POCKET</span>
-        <span>Everything,but small.</span>
+        <span>Everything, but small.</span>
         <span>
           It's Procreate Pocket, but not as you know it. Be the first to know
           more, sign up and find out soon.
