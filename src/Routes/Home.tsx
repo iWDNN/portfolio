@@ -39,7 +39,7 @@ const BigTitle = styled(motion.h1)`
   right: 0;
   margin: 0 auto;
   font-weight: 700;
-  font-size: 350px;
+  font-size: 25vw;
   letter-spacing: 10px;
   color: #3f72af;
 `;

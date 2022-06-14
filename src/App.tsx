@@ -93,7 +93,7 @@ function App() {
       <Background
         variants={bodyAni}
         animate={background}
-        transition={{ type: "tween", duration: 1.2 }}
+        transition={{ type: "tween" }}
       >
         <GlobalStyle />
         <Router />
