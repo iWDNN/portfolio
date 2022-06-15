@@ -20,7 +20,7 @@ const Items = styled.ul``;
 const Item = styled.li`
   margin: 10px;
   font-size: 14px;
-  color: #272527;
+  color: #444044;
   &:first-child {
     font-weight: 500;
     font-size: 15px;

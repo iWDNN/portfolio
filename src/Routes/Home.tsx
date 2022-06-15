@@ -91,7 +91,7 @@ const bigAni: Variants = {
   scroll: {
     color: "#1E1D1C",
     transition: {
-      type: "linear",
+      type: "tween",
     },
   },
 };
