@@ -116,7 +116,6 @@ function Home() {
   const botTitleAni = useAnimation();
   useEffect(() => {
     scrollY.onChange(() => {
-      console.log(scrollY.get());
       if (scrollY.get() >= 200) {
         topTitleAni.start("scroll");
         bigTitleAni.start("scroll");

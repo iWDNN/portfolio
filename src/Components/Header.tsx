@@ -47,22 +47,14 @@ function Header() {
       <Nav>
         <Col>
           <Logo>
-            <Link to="/">
-              <span>Pro</span>create
-            </Link>
+            <span>Pro</span>create
           </Logo>
         </Col>
         <Col>
           <Items>
-            <Item>
-              <Link to="/about">About</Link>
-            </Item>
-            <Item>
-              <Link to="/about">Work</Link>
-            </Item>
-            <Item>
-              <Link to="/contact">Contact</Link>
-            </Item>
+            <Item>About</Item>
+            <Item>Work</Item>
+            <Item>Contact</Item>
           </Items>
         </Col>
       </Nav>
