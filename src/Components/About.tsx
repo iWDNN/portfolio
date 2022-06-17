@@ -1,6 +1,6 @@
 import { motion, Variants } from "framer-motion";
 import styled from "styled-components";
-import { skillSet } from "../data";
+import { skillSet } from "../skillsData";
 
 const Container = styled(motion.div)`
   width: 100%;

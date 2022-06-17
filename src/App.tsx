@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import Footer from "./Components/Footer";
 import Header from "./Components/Header";
+import { skillSet } from "./skillsData";
 interface IText {
   size?: string;
   color?: string;
@@ -23,6 +24,9 @@ const Section = styled.section<{ height?: string; bgColor: string }>`
   width: 100%;
   height: ${(props) => props.height};
   text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 const TextBox = styled.div<ITextBox>`
   position: absolute;
@@ -58,6 +62,34 @@ const HeadingText = styled.h1`
   letter-spacing: 10px;
   color: #3f72af;
 `;
+
+const ContentBox = styled.div`
+  width: 100%;
+  max-width: 480px;
+  position: relative;
+  background-color: purple;
+  color: white;
+`;
+const Skills = styled.ul`
+  background-color: crimson;
+`;
+const Skill = styled.li`
+  width: 100%;
+  margin: 20px 0;
+  display: grid;
+  grid-template-columns: 50px 2fr 4fr;
+  align-items: center;
+  background-color: black;
+  p:first-child {
+    padding-left: 20px;
+  }
+`;
+const Bar = styled.div`
+  width: 100%;
+  height: 5px;
+  border-radius: 5px;
+  background-color: white;
+`;
 function App() {
   return (
     <>
@@ -90,7 +122,23 @@ function App() {
           </TextBox>
         </Section>
         <Section bgColor="beige" height="100vh">
-          <Text>Skills</Text>
+          <ContentBox>
+            <Text weight={800} size={"20px"}>
+              Skills
+            </Text>
+            <Skills>
+              {skillSet.map((skill, i) => (
+                <Skill key={i}>
+                  <Text weight={800}>{skill.initial}</Text>
+                  <Text size={"14px"}>{skill.name}</Text>
+                  <Bar />
+                </Skill>
+              ))}
+            </Skills>
+          </ContentBox>
+          <ContentBox>
+            <Text>Git & Blog</Text>
+          </ContentBox>
         </Section>
         <Footer />
       </Background>
