@@ -1,8 +1,7 @@
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
 import styled from "styled-components";
 
-const Wrapper = styled.div`
+const Wrapper = styled(motion.div)`
   width: 100%;
   display: flex;
   align-items: center;

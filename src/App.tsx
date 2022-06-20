@@ -1,7 +1,14 @@
+import {
+  motion,
+  useAnimation,
+  useViewportScroll,
+  Variants,
+} from "framer-motion";
+import { useEffect } from "react";
 import styled from "styled-components";
-import Footer from "./Components/Footer";
-import Header from "./Components/Header";
-import { skillSet } from "./skillsData";
+import Footer from "./components/Footer";
+import Header from "./components/Header";
+import { skillSet, works } from "./data";
 interface IText {
   size?: string;
   color?: string;
@@ -15,10 +22,8 @@ interface ITextBox {
   top?: string;
   bottom?: string;
 }
-const Background = styled.div`
-  background-color: yellowgreen;
-`;
-const Section = styled.section<{ height?: string; bgColor: string }>`
+const Background = styled(motion.div)``;
+const Section = styled.section<{ height?: string; bgColor?: string }>`
   position: relative;
   background: ${(props) => props.bgColor};
   width: 100%;
@@ -27,8 +32,10 @@ const Section = styled.section<{ height?: string; bgColor: string }>`
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
+  padding: 40px 0;
 `;
-const TextBox = styled.div<ITextBox>`
+const TextBox = styled(motion.div)<ITextBox>`
   position: absolute;
   top: ${(props) => props.top};
   bottom: ${(props) => props.bottom};
@@ -38,7 +45,6 @@ const TextBox = styled.div<ITextBox>`
 `;
 const Text = styled.p<IText>`
   padding: 8px;
-  text-align: center;
   color: ${(props) => props.color};
   font-size: ${(props) => props.size};
   font-weight: ${(props) => props.weight};
@@ -51,7 +57,8 @@ const Text = styled.p<IText>`
     line-height: 1.4;
   }
 `;
-const HeadingText = styled.h1`
+
+const HeadingText = styled(motion.h1)`
   position: absolute;
   bottom: 300px;
   left: 0;
@@ -63,12 +70,23 @@ const HeadingText = styled.h1`
   color: #3f72af;
 `;
 
-const ContentBox = styled.div`
+const ContentBox = styled.div<{ width: string }>`
   width: 100%;
-  max-width: 480px;
+  max-width: ${(props) => props.width};
   position: relative;
   background-color: purple;
   color: white;
+  margin-bottom: 20px;
+`;
+const Grid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  background-color: blanchedalmond;
+  padding: 10px;
+  gap: 10px;
+`;
+const Item = styled.div`
+  background-color: goldenrod;
 `;
 const Skills = styled.ul`
   background-color: crimson;
@@ -90,13 +108,93 @@ const Bar = styled.div`
   border-radius: 5px;
   background-color: white;
 `;
+
+const Works = styled.ul`
+  width: 100%;
+  max-width: 1080px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+`;
+const Work = styled.li`
+  width: 380px;
+  position: relative;
+  place-self: center;
+  border-radius: 10px;
+  background-color: #121212;
+  padding: 10px;
+  color: white;
+  margin-bottom: 50px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+`;
+const WorkItem = styled.div``;
+const Img = styled.div<{ link: string }>`
+  width: 60px;
+  height: 60px;
+  margin: 0 auto;
+  background: url(${(props) => props.link});
+  background-size: cover;
+  background-position: center center;
+`;
+
+const backgroundVar: Variants = {
+  top: {
+    backgroundColor: "rgba(0,0,0,0)",
+  },
+  scroll: {
+    backgroundColor: "rgba(0,0,0,1)",
+  },
+};
+const textBoxVar: Variants = {
+  top: {
+    opacity: 1,
+    y: 0,
+  },
+  scroll: {
+    opacity: 0,
+    y: 20,
+  },
+};
+
+const colorVar: Variants = {
+  top: {
+    color: "#000",
+  },
+  scroll: {
+    color: "#fff",
+  },
+};
+
 function App() {
+  const { scrollY } = useViewportScroll();
+
+  const backgroundAni = useAnimation();
+  const textBoxAni = useAnimation();
+  const HeadingTextAni = useAnimation();
+  useEffect(() => {
+    scrollY.onChange(() => {
+      console.log(scrollY.get());
+      if (scrollY.get() <= 265) {
+        backgroundAni.start("top");
+        textBoxAni.start("top");
+        HeadingTextAni.start("top");
+      } else {
+        backgroundAni.start("scroll");
+        textBoxAni.start("scroll");
+        HeadingTextAni.start("scroll");
+      }
+    });
+  }, [scrollY]);
   return (
     <>
-      <Background>
+      <Background
+        variants={backgroundVar}
+        animate={backgroundAni}
+        transition={{ type: "tween", duration: 0.7 }}
+      >
         <Header />
-        <Section bgColor={"pink"} height={"120vh"}>
-          <TextBox top={"50px"}>
+        <Section height={"120vh"}>
+          <TextBox variants={textBoxVar} animate={textBoxAni} top={"50px"}>
             <Text space={"1px"} size={"15px"} color={"#5c5b5c"} weight={500}>
               COMING SOON
             </Text>
@@ -104,7 +202,9 @@ function App() {
               New Year's Revolution.
             </Text>
           </TextBox>
-          <HeadingText>Pocket</HeadingText>
+          <HeadingText variants={colorVar} animate={HeadingTextAni}>
+            Pocket
+          </HeadingText>
           <TextBox bottom={"0px"}>
             <Text size={"15px"} color={"#b21a59"} weight={800} space="1px">
               NEW PROJECT POCKET
@@ -121,9 +221,9 @@ function App() {
             </Text>
           </TextBox>
         </Section>
-        <Section bgColor="beige" height="100vh">
-          <ContentBox>
-            <Text weight={800} size={"20px"}>
+        <Section bgColor="beige">
+          <ContentBox width={"480px"}>
+            <Text size={"50px"} weight={700}>
               Skills
             </Text>
             <Skills>
@@ -136,9 +236,59 @@ function App() {
               ))}
             </Skills>
           </ContentBox>
-          <ContentBox>
-            <Text>Git & Blog</Text>
+        </Section>
+        <Section bgColor="Black" height={"100vh"}>
+          <TextBox top={"20px"}>
+            <Text color={"white"} size={"50px"} weight={700}>
+              Work
+            </Text>
+          </TextBox>
+          <Works>
+            {works.map((work, i) => (
+              <Work key={i}>
+                <WorkItem>
+                  <Img link={work.logoUrl} />
+                  <Text size={"20px"} weight={700}>
+                    {work.language}
+                  </Text>
+                </WorkItem>
+                <WorkItem>
+                  <Text weight={700}>{work.title}</Text>
+                  <Text>{work.overview}</Text>
+                </WorkItem>
+              </Work>
+            ))}
+          </Works>
+        </Section>
+        <Section bgColor="blue">
+          <ContentBox width={"980px"}>
+            <Text size={"50px"} weight={700}>
+              Contact
+            </Text>
+            <Grid>
+              <Item>
+                <Img
+                  link={
+                    "https://blog.kakaocdn.net/dn/JDpme/btrE76gpvNU/7JkHwRkWdqWZxQ09cUkPx0/img.png"
+                  }
+                />
+                <Text size={"30px"} weight={700}>
+                  Github
+                </Text>
+              </Item>
+              <Item>
+                <Img
+                  link={
+                    "https://blog.kakaocdn.net/dn/KFCTK/btrFbNGTnTa/ws0fqVZ1FZQMKbGiKQJJ10/img.png"
+                  }
+                />
+                <Text size={"30px"} weight={700}>
+                  Blog
+                </Text>
+              </Item>
+            </Grid>
           </ContentBox>
+          <br />
         </Section>
         <Footer />
       </Background>

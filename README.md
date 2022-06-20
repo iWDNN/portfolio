@@ -21,3 +21,4 @@
 ## add
 
 - scroll simple nav
+- work, 사용한 언어들 그래프로 표현하기
