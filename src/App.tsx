@@ -1,10 +1,11 @@
 import {
   motion,
   useAnimation,
+  useMotionValue,
   useViewportScroll,
   Variants,
 } from "framer-motion";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
@@ -21,6 +22,7 @@ interface IText {
 interface ITextBox {
   top?: string;
   bottom?: string;
+  opacity?: number;
 }
 const Background = styled(motion.div)``;
 const Section = styled.section<{ height?: string; bgColor?: string }>`
@@ -34,11 +36,13 @@ const Section = styled.section<{ height?: string; bgColor?: string }>`
   align-items: center;
   flex-direction: column;
   padding: 40px 0;
+  margin-bottom: 100px;
 `;
 const TextBox = styled(motion.div)<ITextBox>`
   position: absolute;
   top: ${(props) => props.top};
   bottom: ${(props) => props.bottom};
+  opacity: ${(props) => props.opacity};
   left: 0;
   right: 0;
   margin: 0 auto;
@@ -74,7 +78,9 @@ const ContentBox = styled.div<{ width: string }>`
   width: 100%;
   max-width: ${(props) => props.width};
   position: relative;
-  background-color: purple;
+  background-color: #121212;
+  padding: 20px;
+  border-radius: 10px;
   color: white;
   margin-bottom: 20px;
 `;
@@ -88,22 +94,33 @@ const Grid = styled.div`
 const Item = styled.div`
   background-color: goldenrod;
 `;
-const Skills = styled.ul`
-  background-color: crimson;
+const Skills = styled.ul``;
+const Initial = styled.div<{ mainColor: string; subColor: string }>`
+  text-align: center;
+  font-size: 17px;
+  font-weight: 800;
+  background: linear-gradient(
+    135deg,
+    ${(props) => props.mainColor},
+    ${(props) => props.subColor}
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 `;
 const Skill = styled.li`
   width: 100%;
   margin: 20px 0;
+  padding: 8px 0;
   display: grid;
-  grid-template-columns: 50px 2fr 4fr;
+  grid-template-columns: 1fr 2fr 4fr;
   align-items: center;
   background-color: black;
   p:first-child {
     padding-left: 20px;
   }
 `;
-const Bar = styled.div`
-  width: 100%;
+const Bar = styled(motion.div)`
+  width: 0;
   height: 5px;
   border-radius: 5px;
   background-color: white;
@@ -113,17 +130,19 @@ const Works = styled.ul`
   width: 100%;
   max-width: 1080px;
   display: grid;
+  background-color: #121212;
   grid-template-columns: repeat(2, 1fr);
+  border-radius: 15px;
 `;
 const Work = styled.li`
   width: 380px;
   position: relative;
   place-self: center;
   border-radius: 10px;
-  background-color: #121212;
+  background-color: black;
   padding: 10px;
+  margin: 30px 0;
   color: white;
-  margin-bottom: 50px;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
 `;
@@ -158,30 +177,46 @@ const textBoxVar: Variants = {
 
 const colorVar: Variants = {
   top: {
-    color: "#000",
+    color: "#3f72af",
   },
   scroll: {
-    color: "#fff",
+    color: "#1E1D1D",
   },
+};
+
+const barVar: Variants = {
+  scroll: (score) => ({
+    width: score + "%",
+    transition: {
+      duration: 1,
+    },
+  }),
 };
 
 function App() {
   const { scrollY } = useViewportScroll();
 
   const backgroundAni = useAnimation();
-  const textBoxAni = useAnimation();
+  const tBOne = useAnimation();
+  const tBTwo = useAnimation();
   const HeadingTextAni = useAnimation();
+  const barAni = useAnimation();
+
   useEffect(() => {
     scrollY.onChange(() => {
-      console.log(scrollY.get());
       if (scrollY.get() <= 265) {
         backgroundAni.start("top");
-        textBoxAni.start("top");
+        tBOne.start("top");
+        tBTwo.start("scroll");
         HeadingTextAni.start("top");
       } else {
         backgroundAni.start("scroll");
-        textBoxAni.start("scroll");
+        tBOne.start("scroll");
+        tBTwo.start("top");
         HeadingTextAni.start("scroll");
+      }
+      if (scrollY.get() >= 500) {
+        barAni.start("scroll");
       }
     });
   }, [scrollY]);
@@ -194,7 +229,12 @@ function App() {
       >
         <Header />
         <Section height={"120vh"}>
-          <TextBox variants={textBoxVar} animate={textBoxAni} top={"50px"}>
+          <TextBox
+            variants={textBoxVar}
+            animate={tBOne}
+            transition={{ type: "tween" }}
+            top={"50px"}
+          >
             <Text space={"1px"} size={"15px"} color={"#5c5b5c"} weight={500}>
               COMING SOON
             </Text>
@@ -205,7 +245,13 @@ function App() {
           <HeadingText variants={colorVar} animate={HeadingTextAni}>
             Pocket
           </HeadingText>
-          <TextBox bottom={"0px"}>
+          <TextBox
+            variants={textBoxVar}
+            animate={tBTwo}
+            transition={{ type: "tween" }}
+            bottom={"0px"}
+            opacity={0}
+          >
             <Text size={"15px"} color={"#b21a59"} weight={800} space="1px">
               NEW PROJECT POCKET
             </Text>
@@ -221,23 +267,29 @@ function App() {
             </Text>
           </TextBox>
         </Section>
-        <Section bgColor="beige">
-          <ContentBox width={"480px"}>
+        <Section>
+          <ContentBox width={"680px"}>
             <Text size={"50px"} weight={700}>
               Skills
             </Text>
             <Skills>
               {skillSet.map((skill, i) => (
                 <Skill key={i}>
-                  <Text weight={800}>{skill.initial}</Text>
+                  <Initial mainColor={skill.color} subColor={skill.subColor}>
+                    {skill.initial}
+                  </Initial>
                   <Text size={"14px"}>{skill.name}</Text>
-                  <Bar />
+                  <Bar
+                    custom={skill.score}
+                    variants={barVar}
+                    animate={barAni}
+                  />
                 </Skill>
               ))}
             </Skills>
           </ContentBox>
         </Section>
-        <Section bgColor="Black" height={"100vh"}>
+        <Section height={"100vh"}>
           <TextBox top={"20px"}>
             <Text color={"white"} size={"50px"} weight={700}>
               Work
@@ -260,7 +312,7 @@ function App() {
             ))}
           </Works>
         </Section>
-        <Section bgColor="blue">
+        <Section>
           <ContentBox width={"980px"}>
             <Text size={"50px"} weight={700}>
               Contact

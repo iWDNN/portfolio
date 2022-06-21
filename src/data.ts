@@ -9,7 +9,7 @@ interface ISkillSet {
   name: string;
   score: number;
   color: string;
-  subColor?: string;
+  subColor: string;
 }
 
 interface IWorks {
