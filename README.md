@@ -1,15 +1,15 @@
-# Portfolio
+# 포트폴리오
 
-## Library
+## 라이브러리
 
 - react-router-dom
 - styled-components
 - framer-motion
 
-## Content
+## 컨셉
 
-- Home : 간단한 인사 및 소개
-- About : stack, language 숙련도
-  - js, ts / vue, react
-- Work : js, react-js, react-ts, vue-js
-- Contact : 이메일 및 연락처
+- Simple
+
+## 기능
+
+- Darkmode
