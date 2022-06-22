@@ -1,14 +1,10 @@
-# Portfolio A
+# Portfolio
 
 ## Library
 
 - react-router-dom
 - styled-components
 - framer-motion
-
-## Font
-
-- Noto Sans Korean - font google
 
 ## Content
 
@@ -17,8 +13,3 @@
   - js, ts / vue, react
 - Work : js, react-js, react-ts, vue-js
 - Contact : 이메일 및 연락처
-
-## add
-
-- scroll simple nav
-- work, 사용한 언어들 그래프로 표현하기
