@@ -11,5 +11,3 @@
 - Simple
 
 ## 기능
-
-- Darkmode
