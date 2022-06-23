@@ -32,6 +32,7 @@ const Logo = styled.span`
   font-weight: 400;
   font-size: 17px;
   letter-spacing: 2px;
+  margin-left: 1vw;
   transition: color 0.2s ease-in-out;
   &:hover {
     color: #8a8a8a;
@@ -75,41 +76,40 @@ function Header() {
   const aboutMatch = useMatch("about");
   const workMatch = useMatch("work");
   const contactMatch = useMatch("contact");
-
   return (
     <>
       <SpaceCt />
       <Container>
         <Nav>
-          <AnimatePresence>
-            <Col>
-              <Logo>
-                <Link to="/">
-                  iWDNN{homeMatch && <UnderLine layoutId="1" />}
-                </Link>
-              </Logo>
-            </Col>
-            <Col>
+          <Col>
+            <Logo>
+              <Link to="/">
+                iWDNN{homeMatch && <UnderLine layoutId="nav" />}
+              </Link>
+            </Logo>
+          </Col>
+          <Col>
+            <AnimatePresence>
               <Items>
                 <Item isActive={aboutMatch !== null}>
                   <Link to="/about">
-                    소개{aboutMatch && <UnderLine layoutId="1" />}
+                    소개{aboutMatch && <UnderLine layoutId="nav" />}
                   </Link>
                 </Item>
                 <Item isActive={workMatch !== null}>
                   <Link to="/work">
-                    프로젝트{workMatch && <UnderLine layoutId="1" />}
+                    프로젝트{workMatch && <UnderLine layoutId="nav" />}
                   </Link>
                 </Item>
                 <Item isActive={contactMatch !== null}>
                   <Link to="/contact">
-                    마무리{contactMatch && <UnderLine layoutId="1" />}
+                    마무리{contactMatch && <UnderLine layoutId="nav" />}
                   </Link>
                 </Item>
               </Items>
-            </Col>
-            <Col></Col>
-          </AnimatePresence>
+            </AnimatePresence>
+          </Col>
+          <Col></Col>
         </Nav>
       </Container>
     </>
