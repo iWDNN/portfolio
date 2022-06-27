@@ -14,7 +14,7 @@ const Container = styled.div`
   width: 100%;
   border-bottom: 1px solid #2a2a2a;
   background-color: #1a1a1a;
-  z-index: 1;
+  z-index: 999;
 `;
 const Nav = styled.nav`
   width: 100%;
