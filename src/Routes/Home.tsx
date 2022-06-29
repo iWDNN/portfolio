@@ -11,7 +11,7 @@ interface IIcon {
 }
 const Container = styled.section`
   width: 100%;
-  color: black;
+  color: white;
   text-align: center;
   display: flex;
   flex-direction: column;

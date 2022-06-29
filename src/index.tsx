@@ -33,7 +33,7 @@ footer, header, hgroup, menu, nav, section {
 body {
 	line-height: 1;
   font-family: 'Noto Sans KR', sans-serif;
-	background-color: transparent;
+	background-color: #1a1a1a;
 }
 ol, ul {
 	list-style: none;
