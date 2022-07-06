@@ -1,4 +1,9 @@
-import { motion, useTransform, useViewportScroll } from "framer-motion";
+import {
+  motion,
+  useTransform,
+  useViewportScroll,
+  Variants,
+} from "framer-motion";
 import styled from "styled-components";
 import { projects, skills } from "./data";
 
@@ -48,12 +53,14 @@ const Intro = styled.div`
 const Scene = styled.div`
   width: 100%;
   height: 100vh;
+  border: 1px solid black;
   background-color: white;
   display: flex;
   justify-content: center;
   align-items: center;
 `;
 const TextBox = styled.div`
+  margin-left: 100px;
   h3 {
     font-weight: 500;
     font-size: 20px;
@@ -63,7 +70,31 @@ const TextBox = styled.div`
     line-height: 1.4;
   }
 `;
-const Phone = styled.div``;
+const Phone = styled(motion.div)`
+  width: 180px;
+  height: 360px;
+  background-color: black;
+  border-radius: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+const PScreen = styled(motion.div)`
+  width: 170px;
+  height: 345px;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 10px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+`;
+const PApp = styled(motion.div)`
+  place-self: center;
+  width: 50px;
+  height: 50px;
+  border-radius: 10px;
+  background-color: rgba(255, 255, 255, 0.6);
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1), 0 10px 20px rgba(0, 0, 0, 0.06);
+`;
 const Monitor = styled.div``;
 const Coding = styled.div``;
 
@@ -149,6 +180,28 @@ const Project = styled.li<{ dir?: string }>`
   }
 `;
 
+const PhoneVar: Variants = {
+  initial: {
+    opacity: 0,
+  },
+  start: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.5,
+      delayChildren: 1,
+    },
+  },
+};
+const PAppVar: Variants = {
+  initial: {
+    opacity: 0,
+    y: 10,
+  },
+  start: {
+    opacity: 1,
+    y: 0,
+  },
+};
 function App() {
   return (
     <Container>
@@ -160,7 +213,14 @@ function App() {
       </Title>
       <Intro>
         <Scene>
-          <Phone></Phone>
+          <Phone>
+            <PScreen variants={PhoneVar} initial="initial" animate="start">
+              <PApp variants={PAppVar} />
+              <PApp variants={PAppVar} />
+              <PApp variants={PAppVar} />
+              <PApp variants={PAppVar} />
+            </PScreen>
+          </Phone>
           <TextBox>
             <h3>심플한 디자인</h3>
             <span>
