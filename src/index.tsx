@@ -33,7 +33,7 @@ footer, header, hgroup, menu, nav, section {
 body {
 	line-height: 1;
   font-family: 'Noto Sans KR', sans-serif;
-	background-color: #34495e;
+	background-color: ${(props) => props.theme.col1};
 }
 ol, ul {
 	list-style: none;
@@ -56,6 +56,7 @@ a{
 }
 *{
   box-sizing: border-box;
+	transition: all .2s ease-in-out;
 }
 `;
 const root = ReactDOM.createRoot(
